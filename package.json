@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "npx vite"
+  },
   "dependencies": {
     "pixi.js": "^8.15.0"
   },
