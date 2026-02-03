@@ -1,4 +1,4 @@
-import { Container } from "pixi.js";
+import { Container, DestroyOptions } from "pixi.js";
 
 export class Player extends Container {
     protected playerSpeed: number = 7;
@@ -43,4 +43,21 @@ export class Player extends Container {
             this.isUpKeyPressed = isPressed;
         }
     }
+
+    public update(){
+        if(this.isLeftKeyPressed){
+            this.x -= this.playerSpeed;
+        } 
+        if(this.isRightKeyPressed){
+            this.x += this.playerSpeed;   
+        } 
+        if(this.isUpKeyPressed){
+            this.y -= this.playerSpeed;
+        } 
+        if(this.isDownKeyPressed){
+            this.y += this.playerSpeed;
+        }
+    }
+
+    public destroy(){}
 }
