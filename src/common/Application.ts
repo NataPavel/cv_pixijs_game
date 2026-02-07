@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js"
 import { BaseScene } from "../scenes/BaseScene";
 import { TavernScene } from "../scenes/TavernScene";
+import { GameUtils } from "./GameUtils";
 
 export class Application{
     protected static app: PIXI.Application;
@@ -21,16 +22,28 @@ export class Application{
 
         this.app.canvas.style.position = "absolute";
         document.body.appendChild(this.app.canvas);
+        
+        this.initGameUtils();
 
-        // this.changeForCurrentScene();
+        this.changeForCurrentScene();
 
-        // this.app.ticker.add(this._currentScene.update);
+        this.app.ticker.add(() => {
+            this._currentScene.update();
+        });
     }
 
     protected static changeForCurrentScene(sceneReplaceWith?: BaseScene){
         if(!this._currentScene){
             this._currentScene = new TavernScene(this._playerTexture, this._backgroundTexture);
+            this.app.stage.addChild(this._currentScene);
         }
+    }
+
+    protected static initGameUtils(){
+        GameUtils.appWidth = this.app.screen.width;
+        GameUtils.appHeight = this.app.screen.height;
+        GameUtils.playerSizeWidth = 50;
+        GameUtils.playerSizeHeight = 50;
     }
 
     protected static setTextures(){
