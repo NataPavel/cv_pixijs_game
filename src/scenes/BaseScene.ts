@@ -27,6 +27,8 @@ export class BaseScene extends Container{
         this.addChild(this._player);
     }
 
+    protected initNPCs(){}
+
     public update(){
         this._player.update();
     }

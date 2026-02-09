@@ -9,6 +9,8 @@ export class Application{
 
     protected static _playerTexture: any;
     protected static _backgroundTexture: any;
+
+    protected static textures: Array<string>;
     
     public static async init(): Promise<void>{
         this.app = new PIXI.Application()

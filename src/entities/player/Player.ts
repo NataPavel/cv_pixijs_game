@@ -30,10 +30,6 @@ export class Player extends Container {
         window.addEventListener('keyup', this.onKeyUp.bind(this));
     }
 
-    protected test(event:any){
-        console.log(event);
-    }
-
     protected init(){
         this.playerSizeWidth = GameUtils.playerSizeWidth;
         this.playerSizeHeight = GameUtils.playerSizeHeight;
