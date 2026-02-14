@@ -1,5 +1,6 @@
 import { Container, Graphics } from "pixi.js";
 import { GameUtils } from "../../common/GameUtils";
+import { entityParameterType } from "../types/EntityParametersType";
 
 export class Player extends Container {
     protected playerSpeed: number = 8;
@@ -23,21 +24,21 @@ export class Player extends Container {
         super();
 
         this.playerTexture = playerTexture;
-        
+
         this.init();
-        
+
         window.addEventListener('keydown', this.onKeyDown.bind(this));
         window.addEventListener('keyup', this.onKeyUp.bind(this));
     }
 
-    protected init(){
+    protected init() {
         this.playerSizeWidth = GameUtils.playerSizeWidth;
         this.playerSizeHeight = GameUtils.playerSizeHeight;
 
         this.testPlayer = new Graphics()
             .rect(0, 0, this.playerSizeWidth, this.playerSizeHeight)
             .fill("09637e");
-            
+
         this.addChild(this.testPlayer);
 
         // let circleCenterForDebug = new Graphics().circle(0, 0, 10).fill("09637e");
@@ -48,15 +49,15 @@ export class Player extends Container {
         this.handleKey(event, true);
     }
 
-    protected onKeyUp(event: any){
+    protected onKeyUp(event: any) {
         this.handleKey(event, false);
     }
 
-    protected handleKey(event: any, isPressed: boolean){
-        if(!event.code){
+    protected handleKey(event: any, isPressed: boolean) {
+        if (!event.code) {
             return;
         }
-        
+
         if (this.leftKey.includes(event.code)) {
             this.isLeftKeyPressed = isPressed;
         } else if (this.rightKey.includes(event.code)) {
@@ -68,24 +69,81 @@ export class Player extends Container {
         }
     }
 
-    public update(){
-        if(this.isLeftKeyPressed && this.x > 0){
-            console.log("Left key pressed");
-            this.x -= this.playerSpeed;
-        } 
-        if(this.isRightKeyPressed && this.x < GameUtils.appWidth - this.playerSizeWidth){
-            console.log("Right key pressed");
-            this.x += this.playerSpeed;
-        } 
-        if(this.isUpKeyPressed && this.y > 0){
-            console.log("Up key pressed");
-            this.y -= this.playerSpeed;
-        } 
-        if(this.isDownKeyPressed && this.y< GameUtils.appHeight - this.playerSizeHeight){
-            console.log("Down key pressed");
-            this.y += this.playerSpeed;
+    public update() {
+        if (this.isLeftKeyPressed) {
+            let nextX = this.x - this.playerSpeed;
+
+            if (nextX >= 0 && this.canPlayerMoveByX(nextX)) {
+                this.x = nextX;
+            }
+        }
+        if (this.isRightKeyPressed) {
+            let nextX = this.x + this.playerSpeed;
+
+            if (nextX <= GameUtils.appWidth - this.playerSizeWidth
+                && this.canPlayerMoveByX(nextX)) {
+                this.x = nextX;
+            }
+        }
+        if (this.isUpKeyPressed) {
+            let nextY = this.y - this.playerSpeed;
+
+            if (nextY >= 0 && this.canPlayerMoveByY(nextY)) {
+                this.y = nextY;
+            }
+        }
+        if (this.isDownKeyPressed) {
+            let nextY = this.y + this.playerSpeed;
+
+            if (nextY <= GameUtils.appHeight - this.playerSizeHeight
+                && this.canPlayerMoveByY(nextY)) {
+                this.y = nextY;
+            }
         }
     }
 
-    public destroy(){}
+    public getPlayerParameters(): entityParameterType {
+        return {
+            x: this.x,
+            y: this.y,
+            width: this.playerSizeWidth,
+            height: this.playerSizeHeight
+        };
+    }
+
+    // canPlayerMoveByX and canPlayerMoveByY checks, 
+    // if player will collide with the object by certain coordinate axis
+    protected canPlayerMoveByX(nextX: number): boolean {
+        let collibleObjectsList = GameUtils.collibleObjectsList;
+        for (let obj of collibleObjectsList) {
+            if (GameUtils.willCollide(
+                obj,
+                nextX,
+                this.y,
+                this.playerSizeWidth,
+                this.playerSizeHeight
+            )) {
+                return false; 
+            }
+        }
+        return true;
+    }
+
+    protected canPlayerMoveByY(nextY: number): boolean {
+        let collibleObjectsList = GameUtils.collibleObjectsList;
+        for (let obj of collibleObjectsList) {
+            if (GameUtils.willCollide(
+                obj,
+                this.x,
+                nextY,
+                this.playerSizeWidth,
+                this.playerSizeHeight
+            )) {
+                return false; 
+            }
+        }
+        return true;
+}
+
+    public destroy() { }
 }

@@ -13,7 +13,6 @@ export class BaseScene extends Container{
         super();
         this._playerTexture = playerTexture;
         this._backgroundTexture = backgroundTexture;
-
         this.init();
     }
 

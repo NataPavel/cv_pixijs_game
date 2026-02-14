@@ -4,6 +4,7 @@ import { BaseScene } from "./BaseScene";
 
 export class TavernScene extends BaseScene{
     protected testNPC!: BaseNPC;
+
     constructor(playerTexture: any, backgroundTexture: any){
         super(playerTexture, backgroundTexture);
     }
@@ -21,6 +22,8 @@ export class TavernScene extends BaseScene{
         this.testNPC.x = GameUtils.appWidth / 2;
         this.testNPC.y = this.testNPC.height + 10;
         this.addChild(this.testNPC);
+
+        GameUtils.collibleObjectsList.push(this.testNPC.getNPCParameters());
     }
 
     protected setPlayerPosition(){
@@ -33,25 +36,10 @@ export class TavernScene extends BaseScene{
 
     public update(): void {
         super.update();
-
-        // for test purpose only
-        // let testNPCObj = {
-        //     x: this.testNPC.x,
-        //     y: this.testNPC.y,
-        //     width: this.testNPC.width,
-        //     height: this.testNPC.height
-        // }
-
-        // let playerObj = {
-        //     x: this._player.x,
-        //     y: this._player.y,
-        //     width: this._player.width,
-        //     height: this._player.height
-        // }
-
-        // if(GameUtils.isCollision(testNPCObj, playerObj)){
-        //     console.log("Collision occured");
-        // }
-        //
+        if(GameUtils.isInteraction(this.testNPC.getNPCParameters(), this._player.getPlayerParameters())){
+            this.testNPC.showInteractionKey();
+        } else {
+            this.testNPC.hideInteractionKey();
+        }
     }
 }

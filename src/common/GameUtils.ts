@@ -1,3 +1,5 @@
+import { entityParameterType } from "../entities/types/EntityParametersType";
+
 /*
     Class which contains variables 
     that every class can use
@@ -10,18 +12,32 @@ export class GameUtils{
     public static playerSizeWidth: number;
 
     public static interactionRadius: number = 10;
+    public static isPlayerCollideWithSmth: boolean = false;
+
+    public static collibleObjectsList: Array<entityParameterType> = [];
 
     // where obj - it anything besides player
-    public static isInteraction(objX: number, objY: number, playerX: number, playerY: number): boolean{
-        return false;
+    public static isInteraction(obj: entityParameterType, player: entityParameterType): boolean{
+        return (
+            obj.x < player.x + player.width + 15 &&
+            obj.x + obj.width + 15 > player.x &&
+            obj.y < player.y + player.height + 15 &&
+            obj.y + obj.height + 15 > player.y
+        );
     }
 
-    public static isCollision(obj: any, player: any): boolean{
+    public static willCollide(
+        obj: entityParameterType,
+        playerNextX: number, 
+        playerNextY: number,
+        playerWidth: number,
+        playerHeight: number
+    ): boolean{
         return (
-            obj.x < player.x + player.width &&
-            obj.x + obj.width > player.x &&
-            obj.y < player.y + player.height &&
-            obj.y + obj.height > player.y
+            obj.x < playerNextX + playerWidth &&
+            obj.x + obj.width > playerNextX &&
+            obj.y < playerNextY + playerHeight &&
+            obj.y + obj.height > playerNextY
         );
     }
 }
