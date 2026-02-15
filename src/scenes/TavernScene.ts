@@ -1,11 +1,12 @@
+import { Container, EventEmitter, Graphics, Text } from "pixi.js";
 import { GameUtils } from "../common/GameUtils";
-import { BaseNPC } from "../entities/npc/BaseNPC";
+import { BartenderNPC } from "../entities/npc/BartenderNPC";
 import { BaseScene } from "./BaseScene";
 
-export class TavernScene extends BaseScene{
-    protected testNPC!: BaseNPC;
+export class TavernScene extends BaseScene {
+    protected testNPC!: BartenderNPC;
 
-    constructor(playerTexture: any, backgroundTexture: any){
+    constructor(playerTexture: any, backgroundTexture: any) {
         super(playerTexture, backgroundTexture);
     }
 
@@ -17,7 +18,7 @@ export class TavernScene extends BaseScene{
     }
 
     protected initNPCs() {
-        this.testNPC = new BaseNPC("Rayan Gosling", "none");
+        this.testNPC = new BartenderNPC("Rayan Gosling", "none");
 
         this.testNPC.x = GameUtils.appWidth / 2;
         this.testNPC.y = this.testNPC.height + 10;
@@ -26,7 +27,7 @@ export class TavernScene extends BaseScene{
         GameUtils.collibleObjectsList.push(this.testNPC.getNPCParameters());
     }
 
-    protected setPlayerPosition(){
+    protected setPlayerPosition() {
         this._playerPositionX = GameUtils.appWidth / 2;
         this._playerPositionY = GameUtils.appHeight - GameUtils.playerSizeHeight;
 
@@ -36,10 +37,11 @@ export class TavernScene extends BaseScene{
 
     public update(): void {
         super.update();
-        if(GameUtils.isInteraction(this.testNPC.getNPCParameters(), this._player.getPlayerParameters())){
+        if (GameUtils.isInteraction(this.testNPC.getNPCParameters(), this._player.getPlayerParameters())) {
             this.testNPC.showInteractionKey();
         } else {
             this.testNPC.hideInteractionKey();
+            this.testNPC.destroySpeechText();
         }
     }
 }

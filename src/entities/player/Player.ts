@@ -40,9 +40,6 @@ export class Player extends Container {
             .fill("09637e");
 
         this.addChild(this.testPlayer);
-
-        // let circleCenterForDebug = new Graphics().circle(0, 0, 10).fill("09637e");
-        // this.addChild(circleCenterForDebug);
     }
 
     protected onKeyDown(event: any) {

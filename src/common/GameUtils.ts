@@ -15,8 +15,9 @@ export class GameUtils{
     public static isPlayerCollideWithSmth: boolean = false;
 
     public static collibleObjectsList: Array<entityParameterType> = [];
+    public static isCoinGameWon: boolean = false;
 
-    // where obj - it anything besides player
+    // where obj - is anything besides player
     public static isInteraction(obj: entityParameterType, player: entityParameterType): boolean{
         return (
             obj.x < player.x + player.width + 15 &&
