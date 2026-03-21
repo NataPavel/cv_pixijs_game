@@ -37,16 +37,17 @@ export class BartenderNPC extends BaseNPC{
             this.addChild(this.bartenderSpeech);
         }
 
-        if(bartenderDialogue.beforeGame[this.dialogueLineIndex]){
-            this.bartenderSpeech.text = bartenderDialogue.beforeGame[this.dialogueLineIndex]
-            this.dialogueLineIndex += 1;
-        }
-        
         if(bartenderDialogue.beforeGame[this.dialogueLineIndex] === 
             bartenderDialogue.beforeGame[bartenderDialogue.beforeGame.length - 1]
         ){
             this.chooseCoinSide();
         }
+        
+        if(bartenderDialogue.beforeGame[this.dialogueLineIndex]){
+            this.bartenderSpeech.text = bartenderDialogue.beforeGame[this.dialogueLineIndex]
+            this.dialogueLineIndex += 1;
+        }
+    
     }
 
     protected chooseCoinSide(){
